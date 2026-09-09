@@ -1,0 +1,9 @@
+node_modules/
+dist/
+coverage/
+test-results/
+api-docs/
+*.tsbuildinfo
+*.tgz
+.husky/_/
+.DS_Store

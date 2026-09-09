@@ -1,0 +1,51 @@
+{
+  "name": "m3u8-parser",
+  "version": "0.0.0",
+  "description": "M3U8 playlist parser",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "examples"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "prepare": "node .husky/install.mjs",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "lint:staged": "lint-staged",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.tools.json",
+    "build": "npm run typecheck && vite build && tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "docs": "typedoc",
+    "docs:watch": "typedoc --watch"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,jsonc}": [
+      "biome lint --no-errors-on-unmatched",
+      "biome format --no-errors-on-unmatched"
+    ]
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.12",
+    "@types/node": "24.13.3",
+    "@vitest/coverage-v8": "4.1.11",
+    "husky": "9.1.7",
+    "lint-staged": "17.5.0",
+    "typedoc": "0.28.20",
+    "typescript": "6.0.3",
+    "vite": "8.2.2",
+    "vitest": "4.1.11"
+  }
+}
