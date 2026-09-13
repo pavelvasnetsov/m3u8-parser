@@ -15,6 +15,8 @@ npm run check
 
 `check` собирает пакет, запускает проверки, создаёт HTML-документацию.
 
+После сборки можно запустить демо командой `npm run examples`.
+
 Пакет не публиковался, Для установки в другой проект соберите локальный архив:
 
 ```sh
@@ -82,6 +84,9 @@ if (playlist.kind === "media") {
 `durationRaw`, частота кадров — в `rawAttributes`.
 
 ## Ошибки
+
+После сборки `npm run examples:error` запускает плейлисты с ошибками из `examples/invalid`
+и выводит их контекст.
 
 ```ts
 import { PlaylistParseError, PlaylistParser } from "m3u8-parser"

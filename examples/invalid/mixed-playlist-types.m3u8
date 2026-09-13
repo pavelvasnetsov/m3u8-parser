@@ -1,0 +1,5 @@
+#EXTM3U
+#EXTINF:10,
+segment.ts
+#EXT-X-STREAM-INF:BANDWIDTH=1000
+video.m3u8
