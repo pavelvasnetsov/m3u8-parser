@@ -9,9 +9,13 @@ import { createValueError } from "../diagnostics.js"
  * @throws {@link PlaylistParseError} Если некорретная запись.
  */
 export function parseDecimalInteger(raw: string, context: ValueContext = {}): bigint {
+  if (raw.length === 0 || raw.length > 20 || /[^0-9]/.test(raw)) {
+    throw createValueError("Expected a decimal uint64", "INVALID_NUMBER", raw, context)
+  }
+
   const value = BigInt(raw)
 
-  if (raw.length === 0 || raw.length > 20 || /[^0-9]/.test(raw) || value > 18446744073709551615n) {
+  if (value > 18446744073709551615n) {
     throw createValueError("Expected a decimal uint64", "INVALID_NUMBER", raw, context)
   }
 
