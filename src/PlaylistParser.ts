@@ -43,6 +43,7 @@ export class PlaylistParser implements PlaylistParserApi {
     return this.parsePlaylist(content)
   }
 
+  /** Читает строки, вызывает обработчики и запускает итоговые проверки кастомных тегов. */
   private parsePlaylist(content: string): Playlist {
     const playlistContext = new PlaylistContext()
     const sessions = new Map<string, CustomTagSession>()

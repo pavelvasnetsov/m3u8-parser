@@ -1,9 +1,14 @@
 import { TagRegistrationError } from "../errors.js"
 import type { BuiltinTag, RegisteredTag, TagRegistration } from "../types/tags.js"
 
+/** Хранит встроенные и кастомные определения тегов по имени. */
 export class TagRegistry {
   private readonly tags = new Map<string, RegisteredTag>()
 
+  /**
+   * Регистрирует теги и проверяет кастомные определения.
+   * @throws {@link TagRegistrationError} При неверном определении или повторе имени.
+   */
   constructor(builtins: readonly BuiltinTag[], customTags: readonly TagRegistration[] = []) {
     for (const definition of builtins)
       this.tags.set(definition.name, { kind: "builtin", definition })
@@ -55,10 +60,12 @@ export class TagRegistry {
     }
   }
 
+  /** Возвращает определение по имени без # либо undefined для неизвестного тега. */
   get(name: string): RegisteredTag | undefined {
     return this.tags.get(name)
   }
 
+  /** Перечисляет кастомные теги в порядке регистрации. */
   *getCustomTags(): Generator<TagRegistration> {
     for (const tag of this.tags.values()) if (tag.kind === "custom") yield tag.definition
   }

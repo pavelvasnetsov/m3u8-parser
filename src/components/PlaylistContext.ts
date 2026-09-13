@@ -13,11 +13,13 @@ import type { TagLine, TagMultiplicity, TagPlaylistType, TagScope } from "../typ
 import { startPosition } from "../utils/diagnostics.js"
 import { validateUri } from "../utils/value-parsers/uri.js"
 
+/** Тег, ожидающий следующую URI-строку. */
 interface PendingUri {
   readonly line: TagLine
   readonly consume: (uri: string) => void
 }
 
+/** Накапливает данные и проверяет связи тегов при разборе одного плейлиста. */
 export class PlaylistContext {
   private kind: PlaylistKind = "unknown"
   private kindPosition: SourcePosition | undefined
@@ -34,6 +36,7 @@ export class PlaylistContext {
   private nextSegment: ParsedCustomTag[] = []
   private readonly persistentSegment = new Map<string, ParsedCustomTag>()
 
+  /** Текущий тип и версия плейлиста для обработчиков тегов. */
   get info(): PlaylistInfo {
     return {
       kind: this.kind,
@@ -42,10 +45,12 @@ export class PlaylistContext {
     }
   }
 
+  /** Возвращает первое появление тега либо undefined. */
   getFirstOccurrence(name: string): TagLine | undefined {
     return this.occurrences.get(name)
   }
 
+  /** Проверяет повтор тега и совместимость с типом плейлиста, затем запоминает тег. */
   acceptTag(line: TagLine, playlistType: TagPlaylistType, multiplicity: TagMultiplicity): void {
     const first = this.occurrences.get(line.name)
 
@@ -64,6 +69,7 @@ export class PlaylistContext {
     if (!first) this.occurrences.set(line.name, line)
   }
 
+  /** Определяет тип плейлиста по тегу и запрещает смешивать Master и Media. */
   private setKind(kind: "master" | "media", line: TagLine): void {
     if (this.kind !== "unknown" && this.kind !== kind) {
       throw new PlaylistParseError("Master and Media tags cannot be mixed", {
@@ -81,14 +87,17 @@ export class PlaylistContext {
     }
   }
 
+  /** Сохраняет явно указанную версию протокола. */
   setVersion(version: number): void {
     this.version = version
   }
 
+  /** Сохраняет тип Media Playlist: EVENT или VOD. */
   setPlaylistType(type: MediaPlaylistType): void {
     this.playlistType = type
   }
 
+  /** Запоминает наибольшую требуемую версию и тег, который её потребовал. */
   requireVersion(version: number, line: TagLine): void {
     if (!Number.isSafeInteger(version) || version <= 0)
       throw new TypeError("Required version must be a positive safe integer")
@@ -99,6 +108,7 @@ export class PlaylistContext {
     }
   }
 
+  /** Регистрирует обработчик следующего URI; одновременно ждать URI может один тег. */
   expectUri(line: TagLine, consume: (uri: string) => void): void {
     if (this.pendingUri) {
       throw new PlaylistParseError("Another tag is still waiting for its URI", {
@@ -113,6 +123,7 @@ export class PlaylistContext {
     this.pendingUri = { line, consume }
   }
 
+  /** Проверяет URI и передаёт его ожидающему тегу; URI без такого тега вызывает ошибку. */
   consumeUri(line: SourceLine): void {
     const pending = this.pendingUri
 
@@ -129,6 +140,7 @@ export class PlaylistContext {
     pending.consume(uri)
   }
 
+  /** Добавляет сегмент с постоянными и одноразовыми тегами в порядке исходного текста. */
   addSegment(segment: Omit<MediaSegment, "customTags">): void {
     const customTags: ParsedCustomTag[] = []
     let next = 0
@@ -156,11 +168,13 @@ export class PlaylistContext {
     this.nextSegment = []
   }
 
+  /** Добавляет вариант потока и сохраняет позицию для итоговых проверок. */
   addVariant(variant: VariantStream, position: SourcePosition): void {
     this.variants.push(variant)
     this.variantPositions.push(position)
   }
 
+  /** Сохраняет кастомный тег в плейлисте или назначает его сегментам согласно scope. */
   addCustomTag(line: TagLine, scope: TagScope, value: unknown): void {
     const tag: ParsedCustomTag = { name: line.name, value, position: line.position }
 
@@ -193,6 +207,10 @@ export class PlaylistContext {
     }
   }
 
+  /**
+   * Проверяет незавершённые связи, версию и субтитры, затем возвращает плейлист.
+   * @throws {@link PlaylistParseError} Если итоговые данные противоречат друг другу или неполны.
+   */
   finish(): Playlist {
     if (this.pendingUri) {
       const { line } = this.pendingUri
@@ -243,6 +261,7 @@ export class PlaylistContext {
     }
   }
 
+  /** Проверяет, что CLOSED-CAPTIONS=NONE указан либо у всех вариантов, либо ни у одного. */
   private validateCaptions(): void {
     const first = this.variants[0]
 

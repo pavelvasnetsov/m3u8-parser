@@ -115,7 +115,7 @@ export type TagDefinition<TValue = unknown, TState = undefined> = {
   readonly finalize?: (context: TagFinalizeContext<TState>) => void
 } & (undefined extends TState
   ? {
-      /** Фабрика, создающая новое состояние для каждого парсинга плейлистра. Без фабрики оно будет равно undefined. */
+      /** Фабрика, создающая новое состояние для каждого парсинга плейлиста. Без фабрики оно будет равно undefined. */
       readonly createState?: () => TState
     }
   : {
@@ -128,17 +128,23 @@ export type TagDefinition<TValue = unknown, TState = undefined> = {
  *
  */
 export type TagRegistration = Omit<TagDefinition<unknown, never>, "createState"> & {
-  /** Фабрика, создающая новое состояние для каждого парсинга плейлистра. */
+  /** Фабрика, создающая новое состояние для каждого парсинга плейлиста. */
   readonly createState?: () => unknown
 }
 
+/** Определение встроенного тега. */
 export interface BuiltinTag {
+  /** Имя тега без #. */
   readonly name: string
+  /** Совместимый тип плейлиста. */
   readonly playlistType: TagPlaylistType
+  /** Допустимость повторного появления тега. */
   readonly multiplicity: TagMultiplicity
+  /** Обработчик, сохраняющий данные тега в контексте плейлиста. */
   readonly handle: (line: TagLine, playlistContext: PlaylistContext) => void
 }
 
+/** Запись реестра со встроенным или кастомным определением. */
 export type RegisteredTag =
   | { readonly kind: "builtin"; readonly definition: BuiltinTag }
   | { readonly kind: "custom"; readonly definition: TagRegistration }

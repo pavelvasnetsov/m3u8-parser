@@ -2,6 +2,14 @@ import { PlaylistParseError } from "../errors.js"
 import type { SourceLine } from "../types/source.js"
 import { startPosition } from "./diagnostics.js"
 
+/**
+ * Вызывает обработчик и дополняет его ошибки контекстом тега.
+ * @param name - Имя тега.
+ * @param line - Исходная строка, если она известна.
+ * @param callback - Синхронный обработчик.
+ * @returns Результат обработчика.
+ * @throws {@link PlaylistParseError} С исходной ошибкой в cause, код и позиция ошибки парсинга сохраняются.
+ */
 export function invoke<T>(name: string, line: SourceLine | undefined, callback: () => T): T {
   try {
     return callback()

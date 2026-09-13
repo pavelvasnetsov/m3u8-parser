@@ -1,6 +1,12 @@
 import type { SourceLine } from "../types/source.js"
 import { createValueError } from "./diagnostics.js"
 
+/**
+ * Читает строки с разделителями LF или CRLF, сохраняя пробелы и позиции.
+ * @param content - Текст плейлиста.
+ * @returns Итератор строк без символов переноса. Последний перенос даёт пустую строку.
+ * @throws {@link PlaylistParseError} При запрещённых символах или тексте не в форме NFC.
+ */
 export function* readLines(content: string): Generator<SourceLine> {
   let start = 0
   let line = 1

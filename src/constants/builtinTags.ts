@@ -14,6 +14,7 @@ import {
   parseVersion,
 } from "../utils/value-parsers/numbers.js"
 
+/** Теги, которые парсер поддерживает по умолчанию. */
 export const builtinTags: readonly BuiltinTag[] = [
   {
     name: "EXTM3U",
@@ -66,6 +67,7 @@ export const builtinTags: readonly BuiltinTag[] = [
   },
 ]
 
+/** Разбирает длительность и название сегмента, затем ожидает его URI. */
 function parseExtinf(line: TagLine, playlistContext: PlaylistContext): void {
   const comma = line.payload.indexOf(",")
   const context = { position: line.payloadPosition, tag: line.name }
@@ -93,6 +95,10 @@ function parseExtinf(line: TagLine, playlistContext: PlaylistContext): void {
 
 type VariantFields = { -readonly [K in keyof Omit<VariantStream, "uri">]: VariantStream[K] }
 
+/**
+ * Разбирает атрибуты варианта потока.
+ * @returns Вариант без URI или undefined.
+ */
 function parseStreamInfo(line: TagLine): Omit<VariantStream, "uri"> | undefined {
   const context = { position: line.payloadPosition, tag: line.name }
   const attributes = parseAttributeList(line.payload, context)
