@@ -36,3 +36,5 @@ jobs:
         run: npm run typecheck
       - name: Build
         run: npm run build
+      - name: API documentation
+        run: npm run docs

@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync } from "node:fs"
 
 if (
   process.env.HUSKY === "0" ||
@@ -7,12 +7,12 @@ if (
   process.env.npm_config_omit?.split(/\s+/).includes("dev") ||
   !existsSync(".git")
 ) {
-  process.exit(0);
+  process.exit(0)
 }
 
-const { default: husky } = await import("husky");
-const error = husky();
+const { default: husky } = await import("husky")
+const error = husky()
 
 if (error) {
-  throw new Error(error);
+  throw new Error(error)
 }

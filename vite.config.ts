@@ -1,7 +1,10 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vite"
 
 export default defineConfig({
   build: {
+    rolldownOptions: {
+      external: ["fast-uri"],
+    },
     target: "es2022",
     lib: {
       entry: "src/index.ts",
@@ -9,4 +12,4 @@ export default defineConfig({
       fileName: "index",
     },
   },
-});
+})

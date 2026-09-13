@@ -25,6 +25,11 @@
     "lineWidth": 100,
     "lineEnding": "lf"
   },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {

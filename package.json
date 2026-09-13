@@ -29,7 +29,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "docs": "typedoc",
-    "docs:watch": "typedoc --watch"
+    "docs:watch": "typedoc --watch",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run build && npm test && npm run docs"
   },
   "lint-staged": {
     "*.{js,jsx,mjs,cjs,ts,tsx,mts,cts,json,jsonc}": [
@@ -38,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "fast-uri": "4.1.4",
     "@biomejs/biome": "2.5.12",
     "@types/node": "24.13.3",
     "@vitest/coverage-v8": "4.1.11",
@@ -47,5 +49,8 @@
     "typescript": "6.0.3",
     "vite": "8.2.2",
     "vitest": "4.1.11"
+  },
+  "peerDependencies": {
+    "fast-uri": "^4.1.4"
   }
 }
