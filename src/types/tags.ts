@@ -8,7 +8,7 @@ import type { SourceLine, SourcePosition } from "./source.js"
 export interface TagLine extends SourceLine {
   /** Имя тега без символа #. */
   readonly name: string
-  /** Данные после двоеточия; пустая строка, если двоеточия нет. */
+  /** Данные после двоеточия, пустая строка, если двоеточия нет. */
   readonly payload: string
   /** Позиция после двоеточия либо в конце строки, если двоеточия нет. */
   readonly payloadPosition: SourcePosition
@@ -41,7 +41,7 @@ export interface TagDiagnostics {
    * Создаёт ошибку с именем текущего тега и контекстом.
    * @param message - Описание ошибки.
    * @param details - Детали ошибки.
-   * @returns Ошибка парсинга с контекстом; сам вызов метода её не выбрасывает.
+   * @returns Ошибка парсинга с контекстом,сам вызов метода её не выбрасывает.
    */
   createError(message: string, details?: TagErrorDetails): PlaylistParseError
 }
@@ -86,8 +86,8 @@ export interface TagFinalizeContext<TState = unknown> extends TagDiagnostics {
  *   playlistType: "both",
  *   multiplicity: "single",
  *   scope: "playlist",
- *   parse(payload) { return payload; },
- * };
+ *   parse(payload) { return payload },
+ * }
  * ```
  */
 export type TagDefinition<TValue = unknown, TState = undefined> = {

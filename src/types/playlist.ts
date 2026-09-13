@@ -102,9 +102,9 @@ export interface UnknownPlaylist extends PlaylistBase {
  * ```ts
  * function countEntries(playlist: Playlist): number {
  *   switch (playlist.kind) {
- *     case "master": return playlist.variants.length;
- *     case "media": return playlist.segments.length;
- *     case "unknown": return 0;
+ *     case "master": return playlist.variants.length
+ *     case "media": return playlist.segments.length
+ *     case "unknown": return 0
  *   }
  * }
  * ```

@@ -31,7 +31,7 @@ export class CustomTagSession {
     playlistContext.addCustomTag(line, this.definition.scope, value)
   }
 
-  /** Запускает итоговую проверку; first задаёт позицию ошибки по умолчанию. */
+  /** Запускает итоговую проверк, first задаёт позицию ошибки по умолчанию. */
   finalize(playlist: Playlist, first?: TagLine): void {
     invoke(this.definition.name, first, () =>
       this.definition.finalize?.({

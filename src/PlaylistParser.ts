@@ -13,9 +13,9 @@ import { parseTagLine } from "./utils/value-parsers/tags.js"
  *
  * @example
  * ```ts
- * const parser = new PlaylistParser();
- * const playlist = parser.parse("#EXTM3U\n#EXTINF:10,\nsegment.ts");
- * if (playlist.kind === "media") console.log(playlist.segments[0]?.uri);
+ * const parser = new PlaylistParser()
+ * const playlist = parser.parse("#EXTM3U\n#EXTINF:10,\nsegment.ts")
+ * if (playlist.kind === "media") console.log(playlist.segments[0]?.uri)
  * ```
  */
 export class PlaylistParser implements PlaylistParserApi {

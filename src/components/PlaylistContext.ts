@@ -108,7 +108,7 @@ export class PlaylistContext {
     }
   }
 
-  /** Регистрирует обработчик следующего URI; одновременно ждать URI может один тег. */
+  /** Регистрирует обработчик следующего UR, одновременно ждать URI может один тег. */
   expectUri(line: TagLine, consume: (uri: string) => void): void {
     if (this.pendingUri) {
       throw new PlaylistParseError("Another tag is still waiting for its URI", {
@@ -123,7 +123,7 @@ export class PlaylistContext {
     this.pendingUri = { line, consume }
   }
 
-  /** Проверяет URI и передаёт его ожидающему тегу; URI без такого тега вызывает ошибку. */
+  /** Проверяет URI и передаёт его ожидающему тегу, URI без такого тега вызывает ошибку. */
   consumeUri(line: SourceLine): void {
     const pending = this.pendingUri
 

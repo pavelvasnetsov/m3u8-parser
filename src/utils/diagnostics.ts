@@ -5,7 +5,7 @@ import type { TagDiagnostics } from "../types/tags.js"
 
 import type { ValueContext } from "../types/values.js"
 
-/** Начало плейлиста; используется, если позиция не передана. */
+/** Начало плейлиста, используется, если позиция не передана. */
 export const startPosition: SourcePosition = Object.freeze({
   line: 1,
   column: 1,
@@ -34,7 +34,7 @@ export function advance(position: SourcePosition, count: number): SourcePosition
  * @param context - Контекст для ошибки.
  * @param offset - Смещение от позиции в context внутри той же строки, в единицах UTF-16.
  * @param firstOccurrence - Позиция первого объявления при повторе.
- * @returns Ошибка; функция сама её не выбрасывает.
+ * @returns Ошибка, функция сама её не выбрасывает.
  */
 export function createValueError(
   message: string,
